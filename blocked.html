@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site Blocked - FocusGuard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #09090b;
+      --accent: #10b981;
+      --text: #fafafa;
+      --text-dim: #a1a1aa;
+      --text-muted: #71717a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      overflow: hidden;
+    }
+
+    /* Animated Background */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridMove 30s linear infinite;
+    }
+
+    @keyframes gridMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(60px, 60px); }
+    }
+
+    .glow {
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    .content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      max-width: 560px;
+    }
+
+    .shield {
+      font-size: 72px;
+      margin-bottom: 24px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .title {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -2px;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, var(--accent) 0%, #34d399 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: var(--text-dim);
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    .blocked-site {
+      display: inline-block;
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+    }
+
+    .quote-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .quote-mark {
+      position: absolute;
+      top: -16px;
+      left: 24px;
+      font-size: 64px;
+      color: var(--accent);
+      opacity: 0.2;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .quote {
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 1.5;
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+
+    .quote-author {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: #059669;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-dim);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+    }
+
+    .stats-bar {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    .timer {
+      margin-top: 32px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .timer-value {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    @media (max-width: 600px) {
+      .title { font-size: 28px; }
+      .subtitle { font-size: 15px; }
+      .quote { font-size: 16px; }
+      .stats-bar { gap: 24px; }
+      .stat-value { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="glow"></div>
+
+  <div class="content">
+    <div class="shield">🛡️</div>
+    <h1 class="title">Stay Focused</h1>
+    <p class="subtitle">You blocked this site for a reason.<br>Your future self will thank you.</p>
+    
+    <div class="blocked-site" id="blockedSite">loading...</div>
+    
+    <div class="quote-box">
+      <span class="quote-mark">"</span>
+      <p class="quote" id="quote">The secret of getting ahead is getting started.</p>
+      <p class="quote-author" id="quoteAuthor">— Mark Twain</p>
+    </div>
+    
+    <div class="actions">
+      <button class="btn btn-primary" onclick="goBack()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="12 19 5 12 12 5"/>
+        </svg>
+        Go Back
+      </button>
+      <button class="btn btn-secondary" onclick="newTab()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        New Tab
+      </button>
+    </div>
+    
+    <div class="stats-bar">
+      <div class="stat">
+        <div class="stat-value" id="blocksToday">0</div>
+        <div class="stat-label">Blocked Today</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="streak">0</div>
+        <div class="stat-label">Day Streak</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="focusTime">0</div>
+        <div class="stat-label">Focus Minutes</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const quotes = [
+      { text: "The secret of getting ahead is getting started.", author: "Mark Twain" },
+      { text: "Focus on being productive instead of busy.", author: "Tim Ferriss" },
+      { text: "It's not that I'm so smart, it's just that I stay with problems longer.", author: "Albert Einstein" },
+      { text: "The successful warrior is the average man, with laser-like focus.", author: "Bruce Lee" },
+      { text: "Concentrate all your thoughts upon the work at hand.", author: "Alexander Graham Bell" },
+      { text: "Lack of direction, not lack of time, is the problem.", author: "Zig Ziglar" },
+      { text: "The main thing is to keep the main thing the main thing.", author: "Stephen Covey" },
+      { text: "Starve your distractions, feed your focus.", author: "Unknown" },
+      { text: "Where focus goes, energy flows.", author: "Tony Robbins" },
+      { text: "Do the hard jobs first. The easy jobs will take care of themselves.", author: "Dale Carnegie" },
+      { text: "Your future is created by what you do today, not tomorrow.", author: "Robert Kiyosaki" },
+      { text: "Success is the sum of small efforts repeated day in and day out.", author: "Robert Collier" },
+      { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+      { text: "Discipline is choosing between what you want now and what you want most.", author: "Abraham Lincoln" },
+      { text: "You don't have to be great to start, but you have to start to be great.", author: "Zig Ziglar" }
+    ];
+
+    // Parse URL params
+    const params = new URLSearchParams(window.location.search);
+    const site = params.get('site') || 'Unknown';
+    
+    document.getElementById('blockedSite').textContent = site;
+
+    // Random quote
+    const quote = quotes[Math.floor(Math.random() * quotes.length)];
+    document.getElementById('quote').textContent = quote.text;
+    document.getElementById('quoteAuthor').textContent = '— ' + quote.author;
+
+    // Load stats
+    chrome.runtime.sendMessage({ type: 'getState' }, (state) => {
+      if (state) {
+        document.getElementById('blocksToday').textContent = state.stats?.blocksToday || 0;
+        document.getElementById('streak').textContent = state.stats?.streakDays || 0;
+        document.getElementById('focusTime').textContent = state.stats?.focusMinutesToday || 0;
+      }
+    });
+
+    function goBack() {
+      if (window.history.length > 1) {
+        window.history.back();
+        setTimeout(() => {
+          window.location.href = 'chrome://newtab';
+        }, 100);
+      } else {
+        newTab();
+      }
+    }
+
+    function newTab() {
+      window.location.href = 'chrome://newtab';
+    }
+  </script>
+</body>
+</html>
