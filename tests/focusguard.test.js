@@ -122,6 +122,17 @@ describe('Statistics', () => {
 });
 
 describe('Licensing', () => {
+  test('should reject test keys (backdoor removed)', async () => {
+    // Mock network error to trigger catch block
+    global.fetch = jest.fn().mockRejectedValue(new Error('Network error'));
+
+    const { licenseManager } = require('../licensing.js');
+    const result = await licenseManager.activateLicense('FOCUSGUARD-PRO-TEST');
+
+    // Test keys should NOT work - backdoor removed
+    expect(result.success).toBe(false);
+  });
+
   test('should enforce free tier limit', () => {
     const FREE_LIMIT = 10;
     const blockedSites = Array(10).fill('site.com');

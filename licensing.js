@@ -94,20 +94,8 @@ class LicenseManager {
         return { success: false, message: data.error || 'Invalid license key' };
       }
     } catch (e) {
-      // Dev/test fallback
-      if (licenseKey === 'FOCUSGUARD-PRO-TEST' || licenseKey.startsWith('FOCUSGUARD-DEV-')) {
-        this.status = LicenseStatus.PRO;
-        this.licenseKey = licenseKey;
-        this.activatedAt = new Date().toISOString();
-
-        await chrome.storage.sync.set({
-          license: { key: this.licenseKey, activatedAt: this.activatedAt, expiresAt: null }
-        });
-
-        return { success: true, message: 'Development license activated!' };
-      }
-
-      return { success: false, message: 'Unable to validate license' };
+      console.error('License activation error:', e);
+      return { success: false, message: 'Unable to validate license. Please check your internet connection.' };
     }
   }
 
